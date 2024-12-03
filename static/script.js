@@ -210,7 +210,7 @@ async function moveAgent(direction) {
 }
 
 async function restartGame() {
-    stopAutoPilot(); // Ensure autopilot stops on reset
+    stopAutoPilot(); // Explicitly stop autopilot
     inputEnabled = false; // Disable input during restart
 
     try {
@@ -221,8 +221,13 @@ async function restartGame() {
 
         const resetState = await response.json();
         gameState = resetState; // Update gameState with response
+        autopilotEnabled = resetState.auto_pilot; // Sync autopilot state
+
         renderGameBoard();
         updateGameStatus(resetState.status);
+
+        // Ensure the autopilot button label is correct
+        document.getElementById("autopilot-button").innerText = "Start Auto Pilot";
         inputEnabled = true; // Re-enable input after game restart
     } catch (error) {
         console.error("Error restarting game:", error);

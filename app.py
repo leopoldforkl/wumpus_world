@@ -72,7 +72,8 @@ def move_agent():
 
 @app.route("/restart", methods=["POST"])
 def restart_game():
-    global world, agent, breeze, feet, mask
+    global world, agent, breeze, feet, mask, auto_pilot
+    auto_pilot = False  # Ensure autopilot is deactivated during restart
     world, agent, breeze, feet, mask = initialize_world(N)
 
     status = "ok"
@@ -83,6 +84,7 @@ def restart_game():
         "feet": feet.tolist(),
         "agent": agent.tolist(),
         "mask": mask.tolist(),
+        "auto_pilot": auto_pilot,  # Include autopilot state in the response
         "status": status
     })
 
