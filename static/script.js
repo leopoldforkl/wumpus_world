@@ -36,16 +36,48 @@ function renderGameBoard() {
     for (let i = 0; i < size; i++) {
         for (let j = 0; j < size; j++) {
             const cell = document.createElement("div");
-            const img = document.createElement("img");
+            cell.classList.add("cell");
 
-            if (gameState.world[i][j] === 2) img.src = "/static/media/wumpus.png";
-            else if (gameState.world[i][j] === 3) img.src = "/static/media/gold.png";
-            else if (gameState.world[i][j] === 4) img.src = "/static/media/pit.png";
-            else if (gameState.breeze[i][j] === 1) img.src = "/static/media/breeze.png";
-            else if (gameState.feet[i][j] === 1) img.src = "/static/media/feet.png";
-            else if (gameState.agent[i][j] === 1) img.src = "/static/media/agent.png";
+            // Background layers: Breeze and Feet
+            if (gameState.breeze[i][j] === 1 && gameState.world[i][j] === 0) {
+                const img = document.createElement("img");
+                img.src = "/static/media/breeze.png";
+                img.classList.add("background");
+                cell.appendChild(img);
+            }
+            if (gameState.feet[i][j] === 1 && gameState.world[i][j] === 0) {
+                const img = document.createElement("img");
+                img.src = "/static/media/feet.png";
+                img.classList.add("background");
+                cell.appendChild(img);
+            }
 
-            cell.appendChild(img);
+            // Middle layers: Wumpus, Gold, and Pit (overwrite background)
+            if (gameState.world[i][j] === 2) {
+                const img = document.createElement("img");
+                img.src = "/static/media/wumpus.png";
+                img.classList.add("middle");
+                cell.appendChild(img);
+            } else if (gameState.world[i][j] === 3) {
+                const img = document.createElement("img");
+                img.src = "/static/media/gold.png";
+                img.classList.add("middle");
+                cell.appendChild(img);
+            } else if (gameState.world[i][j] === 4) {
+                const img = document.createElement("img");
+                img.src = "/static/media/pit.png";
+                img.classList.add("middle");
+                cell.appendChild(img);
+            }
+
+            // Foreground layer: Agent (always on top)
+            if (gameState.agent[i][j] === 1) {
+                const img = document.createElement("img");
+                img.src = "/static/media/agent.png";
+                img.classList.add("foreground");
+                cell.appendChild(img);
+            }
+
             board.appendChild(cell);
         }
     }

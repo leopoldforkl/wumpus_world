@@ -28,3 +28,33 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
+
+.cell {
+    position: relative; /* Allows stacking of elements */
+    width: 50px;
+    height: 50px;
+}
+
+.cell img {
+    position: absolute; /* Positions images within the cell */
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+}
+
+/* Z-index layering rules */
+.cell img.background {
+    z-index: 1; /* Breeze and Feet */
+    opacity: 0.8; /* Semi-transparent for background elements */
+}
+
+.cell img.middle {
+    z-index: 2; /* Wumpus, Gold, and Pit overwrite background */
+    opacity: 1; /* Fully opaque for middle layer elements */
+}
+
+.cell img.foreground {
+    z-index: 3; /* Agent always on top */
+    opacity: 0.8; /* Semi-transparent for visual blending */
+}
