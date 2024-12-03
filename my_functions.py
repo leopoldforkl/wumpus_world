@@ -1,8 +1,6 @@
 import numpy as np
 import random
 
-import numpy as np
-import random
 
 def initialize_world(N):
     # Initialize the agent matrix
@@ -94,9 +92,3 @@ def move_agent_py(mask, agent, direction, world):
         status = "ok"
 
     return agent, mask, status
-
-
-def get_direction_from_auto_pilot(world, mask, agent, breeze, feet):
-    possible_directions = ["up","down", "left", "right"]
-    direction = random.choice(possible_directions)  # Randomly choose a direction
-    return direction

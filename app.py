@@ -6,7 +6,10 @@ import os
 
 from my_functions import (
     initialize_world,
-    move_agent_py,
+    move_agent_py
+)
+
+from auto_pilot import (
     get_direction_from_auto_pilot
 )
 

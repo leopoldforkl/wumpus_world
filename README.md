@@ -1,26 +1,27 @@
+
 # The Wumpus Game
 
-The Wumpus Game is a web-based grid game where players navigate an agent through a 4x4 matrix, avoiding dangers such as pits and the Wumpus while aiming to collect gold. The game is built using Flask for the backend and JavaScript for dynamic user interactions.
+The Wumpus Game is a web-based grid game where players navigate an agent through a customizable grid, avoiding dangers such as pits and the Wumpus while aiming to collect gold. The game includes both manual controls and an optional autopilot mode for automated gameplay.
 
 ---
 
 ## Features
 
-- A 4x4 grid representing the game world.
-- Dynamic rendering of game objects like Wumpus, gold, pits, breeze, feet, and the agent.
-- Keyboard controls for moving the agent (arrow keys).
-- Interactive feedback based on the agent's position:
-  - **Game Over** when encountering a Wumpus or falling into a pit.
-  - **You Win** upon finding gold.
-- Restart button to reset the game.
+- **Dynamic Grid Size**: The grid size is configurable (default is 5x5).
+- **Interactive Gameplay**: Use arrow keys to control the agent or enable autopilot for automated movements.
+- **Game Feedback**: Provides real-time updates on game status, including:
+  - **Game Over**: When encountering a Wumpus or falling into a pit.
+  - **You Win**: Upon finding gold.
+- **Autopilot Mode**: Lets the system navigate the agent automatically.
+- **Restart Functionality**: Reset the game to start fresh at any time.
 
 ---
 
 ## Technologies Used
 
-- **Backend:** Flask
-- **Frontend:** HTML, CSS, JavaScript
-- **Data Handling:** NumPy for matrix operations
+- **Backend**: Flask
+- **Frontend**: HTML, CSS, JavaScript
+- **Data Handling**: NumPy for matrix operations
 
 ---
 
@@ -42,14 +43,22 @@ root/
 ├── templates/
 │   └── index.html          # HTML for the game interface
 ├── app.py                  # Flask backend
-├── .gitignore              # Git ignore file
+├── my_functions.py         # Core game logic and helper functions
+├── auto_pilot.py           # Autopilot functionalities
+├── requirements.txt        # Python dependencies
 ├── README.md               # Project documentation
-└── requirements.txt        # Python dependencies
+└── development.ipynb       # Notebook for debugging and experiments
 ```
 
 ---
 
 ## Installation and Setup
+
+### Prerequisites
+
+Ensure you have Python 3.7+ installed on your system.
+
+### Steps
 
 1. Clone the repository:
    ```bash
@@ -78,46 +87,53 @@ root/
 
 ## How to Play
 
-1. Use the arrow keys to move the agent:
-   - **Up Arrow:** Move up
-   - **Down Arrow:** Move down
-   - **Left Arrow:** Move left
-   - **Right Arrow:** Move right
+1. **Manual Mode**:
+   - Use the arrow keys to move the agent:
+     - **Up Arrow**: Move up
+     - **Down Arrow**: Move down
+     - **Left Arrow**: Move left
+     - **Right Arrow**: Move right
 
-2. Avoid dangers:
-   - **Wumpus:** (Game Over - Eaten by Wumpus)
-   - **Pit:** (Game Over - Drowned in Pit)
+2. **Autopilot Mode**:
+   - Click the **Start Auto Pilot** button to let the system play the game for you.
+   - Stop the autopilot at any time by clicking the **Stop Auto Pilot** button.
 
-3. Collect the gold to win the game:
-   - (Gold Found - You Win)
-
-4. Restart the game using the "Restart" button.
+3. **Restart the Game**:
+   - Click the **Restart** button to reset the game.
 
 ---
 
 ## Gameplay Rules
 
-- The agent starts in the bottom-left corner.
-- The breeze and feet tiles provide hints about nearby pits and Wumpus respectively.
-- Landing on a tile with the gold wins the game.
-- The game ends immediately if the agent lands on a tile with the Wumpus or a pit.
+- The agent starts in a random position on the grid.
+- The **mask** obscures unexplored areas until the agent moves to them.
+- Game objects include:
+  - **Wumpus**: Instant game over if encountered.
+  - **Pits**: Instant game over if fallen into.
+  - **Gold**: Win the game upon collecting it.
+  - **Breeze**: Indicates nearby pits.
+  - **Feet**: Indicates the proximity of the Wumpus.
+- The agent can move in four directions (up, down, left, right).
+- Autopilot mode allows the system to decide movements based on randomized logic.
 
 ---
 
-## Screenshots
+## Advanced Features
 
-![Game Board Example](static/media/screenshot.png) <!-- Replace with an actual screenshot if available -->
+- **Autopilot Integration**: The autopilot algorithm chooses a random direction for the agent's next move.
+- **Customizable Grid Size**: Change the grid size by modifying the `N` variable in `app.py`.
+- **Dynamic Rendering**: The game board updates in real-time based on the agent's movements and interactions.
 
 ---
 
 ## Contributing
 
-Feel free to fork this repository and submit pull requests for improvements or additional features!
+Feel free to fork this repository and submit pull requests for improvements or additional features. Contributions are welcome!
 
 ---
 
 ## License
 
-t.b.d
+To be determined.
 
---- 
+---
