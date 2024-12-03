@@ -55,12 +55,13 @@ def get_game_state():
         "breeze": breeze.tolist(),
         "feet": feet.tolist(),
         "agent": agent.tolist(),
+        "mask": mask.tolist()  # Include the mask array
     })
 
 
 @app.route("/move_agent", methods=["POST"])
 def move_agent():
-    global agent
+    global agent, mask
     data = request.json
     direction = data.get("direction")
     pos = np.argwhere(agent == 1)[0]
@@ -76,7 +77,20 @@ def move_agent():
     elif direction == "right" and y < agent.shape[1] - 1:
         agent[x, y], agent[x, y + 1] = 0, 1
 
-    # Game status check
+    # Update mask: reveal the new agent position
+    mask[np.argwhere(agent == 1)[0][0], np.argwhere(agent == 1)[0][1]] = 0
+
+    # Return updated game state
+    return jsonify({
+        "status": "pending",
+        "agent_position": agent.tolist(),
+        "mask": mask.tolist()  # Return updated mask
+    })
+
+
+@app.route("/check_game_status", methods=["GET"])
+def check_game_status():
+    # Check for game-ending conditions after agent movement
     interaction = np.sum(world * agent)
     if interaction == 2:
         reset_agent()
@@ -89,13 +103,24 @@ def move_agent():
         return jsonify({"status": "Gold Found - You Win"})
     else:
         return jsonify({"status": "ok"})
-    
+
 def reset_agent():
     """Reset the agent matrix to the starting position."""
     global agent
     agent.fill(0)
     start_position = (agent.shape[0] - 1, 0)  # Bottom-left corner
     agent[start_position] = 1
+
+def reset_mask():
+    global mask
+    mask = np.ones_like(world)  # Reset mask to all 1s
+    mask[agent.shape[0] - 1, 0] = 0  # Reveal the starting position
+
+@app.route("/restart", methods=["POST"])
+def restart_game():
+    reset_agent()
+    reset_mask()  # Reset the mask when restarting
+    return jsonify({"status": "Game Restarted"})
 
 
 if __name__ == "__main__":
