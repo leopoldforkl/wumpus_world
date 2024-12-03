@@ -12,11 +12,12 @@ from my_functions import (
 
 # Add the global variable for autopilot mode
 auto_pilot = False  # Default mode is manual
+N=5
 
 app = Flask(__name__)
 
 # Matrices representing the game state
-world, agent, breeze, feet, mask = initialize_world()
+world, agent, breeze, feet, mask = initialize_world(N)
 
 
 @app.route("/")
@@ -69,7 +70,7 @@ def move_agent():
 @app.route("/restart", methods=["POST"])
 def restart_game():
     global world, agent, breeze, feet, mask
-    world, agent, breeze, feet, mask = initialize_world()
+    world, agent, breeze, feet, mask = initialize_world(N)
 
     status = "ok"
 

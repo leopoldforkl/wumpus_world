@@ -169,7 +169,7 @@ function startAutoPilot() {
             console.error("Error during autopilot move:", error);
             stopAutoPilot();
         }
-    }, 1000); // Move every second
+    }, 500); // Move every 0.5 second
 }
 
 function stopAutoPilot() {
