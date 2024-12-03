@@ -24,12 +24,16 @@ def initialize_world(N):
     def place_objects_in_world(world, avoid_pos, num, count):
         positions = []
         for _ in range(count):
+            loop_count = 0
             while True:
                 x, y = random.randint(0, N-1), random.randint(0, N-1)
+                loop_count+=1
                 if is_valid_placement(x, y, avoid_pos, world):
                     world[x, y] = num
                     avoid_pos.update([(x, y), (x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)])
                     positions.append((x, y))
+                    break
+                if loop_count > 1000: #in case no valid solution can be found
                     break
         return positions
 
